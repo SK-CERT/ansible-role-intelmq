@@ -1,0 +1,8 @@
+---
+# tasks file for intelmq logging
+
+- name: install logging dependencies
+  package:
+    name: logrotate
+    state: present
+  tags: install

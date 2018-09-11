@@ -1,0 +1,59 @@
+---
+# tasks file for intelmq
+
+- name: install dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python3-pip
+    - python3-dnspython
+    - python3-psutil
+    - python3-redis
+    - python3-requests
+    - python3-termstyle
+    - python3-tz
+    - python3-dateutil
+    - jq
+    - git
+  tags: install
+
+- name: introduce intelmq repo key
+  apt_key: 
+    url: "https://download.opensuse.org/repositories/home:sebix:intelmq/xUbuntu_{{ ansible_distribution_version }}/Release.key"
+    state: present
+  tags: install
+
+- name: ensure intelmq repo presence
+  apt_repository:
+    repo: "deb http://download.opensuse.org/repositories/home:/sebix:/intelmq/xUbuntu_{{ ansible_distribution_version }}/ /"
+    state: present
+  tags: install
+
+- name: install intelmq
+  package:
+    name: intelmq
+    state: present 
+  tags: install
+
+- name: introduce empty botnet configuration
+  copy:
+    src: empty.conf
+    dest: "{{ intelmq.path }}/{{ item }}"
+    owner: "intelmq"
+    group: "intelmq"
+    mode: "g+rwX"
+  with_items:
+    - runtime.conf
+    - defaults.conf
+    - pipeline.conf
+  tags: configure
+
+- name: ensure harmonization config presence
+  file:
+    path: "{{ intelmq.path }}/harmonization.conf"
+    owner: "intelmq"
+    group: "intelmq"
+    mode: "g+rwX"
+    state: file
+  tags: configure

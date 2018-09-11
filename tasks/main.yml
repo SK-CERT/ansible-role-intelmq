@@ -1,0 +1,15 @@
+---
+# tasks file for intelmq
+
+- name: configure intelmq
+  import_tasks: intelmq/system.yml
+  tags: [install, configure]
+
+- name: configure intelmq logging
+  import_tasks: intelmq/logging.yml
+  tags: [install, configure]
+
+- name: configure intelmq-manager web interface
+  import_tasks: intelmq-manager/webui.yml
+  tags: [install, configure]
+

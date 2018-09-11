@@ -1,0 +1,13 @@
+galaxy_info:
+  author: Tibor Csoka
+  description: Setup IntelMQ environment
+  company: None
+
+  license: MIT
+  min_ansible_version: 2.6
+
+  galaxy_tags: ['intelmq', 'intelmq-manager']
+
+dependencies:
+  - { role: redis }
+  - { role: common/www, php_versions: '7.2', default_php_version: 7.2 }

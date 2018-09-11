@@ -1,0 +1,12 @@
+---
+# defaults file for intelmq
+
+intelmq:
+  path: /etc/intelmq/
+
+intelmq_manager:
+  user: "admin"
+  password: "admin"
+  password_file: "/etc/intelmq-manager.htusers"
+  config_file_path: "{{ intelmq.path }}/manager/"
+  domain: "intelmq.local"
