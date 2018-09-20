@@ -8,6 +8,7 @@
   with_items:
     - git
     - python3-passlib
+    - python-passlib
   tags: install
 
 - name: ensure proper www-dir permissions
