@@ -83,6 +83,7 @@
   with_items: 
   - { path: "/etc/intelmq", mode: "g+rw" }
   - { path: "/var/log/intelmq", mode: "g+rw" }
+  - { path: "/var/log/intelmq/intelmqctl.log", mode: "g+rw" }
   - { path: "/var/lib/intelmq/bots/file-output/", mode: "g+rw" }
   tags: configure
 
