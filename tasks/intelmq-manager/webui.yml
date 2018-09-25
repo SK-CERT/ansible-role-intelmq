@@ -75,6 +75,11 @@
     password: "{{ intelmq_manager.password }}"
   tags: configure
 
+- name: ensure log-file presence
+  file:
+    path: "/var/log/intelmq/intelmqctl.log"
+    state: touch
+
 - name: fix permissons
   file:
     path: "{{ item.path }}"
