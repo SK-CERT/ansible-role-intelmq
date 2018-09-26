@@ -20,14 +20,15 @@
 
 - name: introduce intelmq repo key
   apt_key: 
-    url: https://download.opensuse.org/repositories/home:sebix:intelmq/xUbuntu_18.04/Release.key
+    url: https://download.opensuse.org/repositories/home:sebix:intelmq/xUbuntu_{{ ansible_distribution_version }}/Release.key
     state: present
   tags: install
 
 - name: ensure intelmq repo presence
   apt_repository:
-    repo: deb http://download.opensuse.org/repositories/home:/sebix:/intelmq/xUbuntu_18.04/ /
+    repo: deb http://download.opensuse.org/repositories/home:/sebix:/intelmq/xUbuntu_{{ ansible_distribution_version }}/ /
     state: present
+    update_cache: yes
   tags: install
 
 - name: install intelmq-manager
