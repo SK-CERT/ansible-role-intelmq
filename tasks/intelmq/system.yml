@@ -45,7 +45,6 @@
     mode: "g+rwX"
   with_items:
     - runtime.conf
-    - defaults.conf
     - pipeline.conf
   tags: configure
 
