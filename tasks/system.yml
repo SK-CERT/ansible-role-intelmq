@@ -1,0 +1,63 @@
+---
+
+- name: IntelMQ | establish dependencies
+  package:
+    name: "{{ intelmq['dependencies'] }}"
+    state: present
+  tags: install
+
+- name: IntelMQ | establish proper dateutil
+  apt:
+    deb: http://cz.archive.ubuntu.com/ubuntu/pool/main/p/python-dateutil/python3-dateutil_2.6.1-1_all.deb
+  when:
+    - ansible_distribution == 'Ubuntu'
+    - ansible_distribution_major_version < "18"
+
+- name: IntelMQ | establish 'intelmq' group
+  group:
+    name: intelmq
+    state: present
+  tags: install
+
+- name: IntelMQ | establish 'intelmq' user
+  user:
+    name: intelmq
+    group: intelmq
+    system: yes
+  tags: install
+
+- name: IntelMQ | establish official package
+  when: intelmq['install']['source'] == 'package'
+  block:
+    - import_tasks: "package/Debian.yml"
+    
+    - name: IntelMQ | establish IntelMQ
+      package:
+        name: intelmq
+        state: present 
+      tags: install
+
+- name: IntelMQ | establish repo
+  import_tasks: establish_intelmq_from_repo.yml
+  when: intelmq['install']['source'] == 'repo'
+
+- name: IntelMQ | establish permissons
+  file:
+    path: "{{ item.path }}"
+    owner: "intelmq"
+    group: "intelmq"
+    mode: "{{ item.mode | default('g+rw') }}"
+    recurse: "{{ item.recurse | default('no') }}"
+    state: directory
+  with_items: 
+    - { path: "{{ intelmq['bot_config_path'] }}" }
+    - { path: "/var/log/intelmq", recurse: yes }
+    - { path: "/var/lib/intelmq/bots/file-output/" }
+  tags: configure
+
+- name: IntelMQ | ensure log-file presence
+  file:
+    path: "/var/log/intelmq/intelmqctl.log"
+    state: touch
+  tags: configure
+

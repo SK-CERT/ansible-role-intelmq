@@ -1,0 +1,14 @@
+---
+
+- name: IntelMQ | introduce official debian repository key
+  apt_key: 
+    url: "https://download.opensuse.org/repositories/home:sebix:intelmq/xUbuntu_{{ ansible_distribution_version }}/Release.key"
+    state: present
+  tags: install
+
+- name: IntelMQ | ensure official debian repository presence
+  apt_repository:
+    repo: "deb http://download.opensuse.org/repositories/home:/sebix:/intelmq/xUbuntu_{{ ansible_distribution_version }}/ /"
+    state: present
+  tags: install
+

@@ -1,7 +1,6 @@
 ---
-# tasks file for intelmq logging
 
-- name: install logging dependencies
+- name: IntelMQ | install logging dependencies
   package:
     name: logrotate
     state: present

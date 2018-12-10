@@ -1,12 +1,21 @@
 ---
-# defaults file for intelmq
+
+install_gui: yes
 
 intelmq:
-  path: /etc/intelmq/
+  install:
+    source: package 
 
 intelmq_manager:
-  user: "admin"
-  password: "admin"
-  password_file: "/etc/intelmq-manager.htusers"
-  config_file_path: "{{ intelmq.path }}/manager/"
+  install:
+    source: package
   domain: "intelmq.local"
+  authorization:
+    file:
+      path: "/etc/intelmq-manager.htusers"
+    user:
+      name: admin
+      password: admin
+  configuration:
+    file:
+      path: "{{ intelmq['bot_config_path'] }}/manager/"

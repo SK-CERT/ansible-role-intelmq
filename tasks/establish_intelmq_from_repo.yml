@@ -1,0 +1,53 @@
+---
+
+- name: IntelMQ | set tmp repo path
+  set_fact:
+    __tmp_repo_path: /tmp/intelmq
+  tags: install
+
+- name: IntelMQ | establish dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - dh-make
+    - dh-systemd
+    - quilt
+    - safe-rm
+    - devscripts
+  tags: install
+
+- name: establish python packaging dependencies
+  package:
+    name: "{{ item }}"
+    state: latest     
+  with_items:
+    - python3-setuptools
+  tags: install
+
+- name: IntelMQ | load online repository
+  git:
+    repo: "{{ intelmq['install']['repo'] | default(intelmq['official_repo']) }}"
+    dest: "{{ __tmp_repo_path }}" 
+    version: "develop"
+    force: yes
+  tags: install
+
+- name: IntelMQ | copy over package creating script
+  copy:
+    src: create_deb_package.sh
+    dest: /tmp/create_deb_package.sh
+  tags: install
+
+- name: IntelMQ | create custom package
+  shell: "bash /tmp/create_deb_package.sh"  
+  args:
+    chdir: "{{ __tmp_repo_path }}"
+  tags: install
+
+- name: IntelMQ | install generated package
+  shell: "dpkg -i ../intelmq*.deb"
+  args:
+    chdir: "{{ __tmp_repo_path }}"
+

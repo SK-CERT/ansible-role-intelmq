@@ -1,2 +1,20 @@
 ---
-# vars file for intelmq
+
+intelmq:
+  official_repo: "https://github.com/certtools/intelmq.git"
+  bot_config_path: /etc/intelmq/
+  dependencies:
+    - python3-pip
+    - python3-dnspython
+    - python3-openssl
+    - python3-psutil
+    - python3-redis
+    - python3-requests
+    - python3-termstyle
+    - python3-tz
+    - python3-dateutil
+    - jq
+
+intelmq_manager:
+  official_repo: "https://github.com/certtools/intelmq-manager.git"
+  web_installation_path: /usr/share/intelmq-manager/html 
