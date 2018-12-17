@@ -50,4 +50,11 @@
   shell: "dpkg -i ../intelmq*.deb"
   args:
     chdir: "{{ __tmp_repo_path }}"
+  tags: install
+
+- name: IntelMQ | remove package files
+  shell: "rm -rf ../intelmq_*"
+  args:
+    chdir: "{{ __tmp_repo_path }}"
+  tags: install
 
