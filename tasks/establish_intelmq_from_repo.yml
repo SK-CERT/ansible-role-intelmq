@@ -2,6 +2,7 @@
 
 - name: IntelMQ | set tmp repo path
   set_fact:
+    __tmp_package_path: /tmp/
     __tmp_repo_path: /tmp/intelmq
   tags: install
 
@@ -41,19 +42,19 @@
   tags: install
 
 - name: IntelMQ | create custom package
-  shell: "bash /tmp/create_deb_package.sh"  
+  shell: "bash {{ __tmp_package_path }}/create_deb_package.sh"  
   args:
     chdir: "{{ __tmp_repo_path }}"
   tags: install
 
 - name: IntelMQ | install generated package
-  shell: "dpkg -i ../intelmq*.deb"
+  shell: "dpkg --force-confdef -i intelmq*.deb"
   args:
-    chdir: "{{ __tmp_repo_path }}"
+    chdir: "{{ __tmp_package_path }}"
   tags: install
 
 - name: IntelMQ | remove package files
-  shell: "rm -rf ../intelmq_*"
+  shell: "rm -rf intelmq_*"
   args:
     chdir: "{{ __tmp_repo_path }}"
   tags: install
