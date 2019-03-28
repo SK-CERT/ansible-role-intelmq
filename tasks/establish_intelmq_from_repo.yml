@@ -8,23 +8,21 @@
 
 - name: IntelMQ | establish dependencies
   package:
-    name: "{{ item }}"
+    name:
+      - git
+      - dh-make
+      - dh-systemd
+      - quilt
+      - safe-rm
+      - devscripts
     state: present
-  with_items:
-    - git
-    - dh-make
-    - dh-systemd
-    - quilt
-    - safe-rm
-    - devscripts
   tags: install
 
 - name: establish python packaging dependencies
   package:
-    name: "{{ item }}"
+    name: 
+      - python3-setuptools
     state: latest     
-  with_items:
-    - python3-setuptools
   tags: install
 
 - name: IntelMQ | load online repository

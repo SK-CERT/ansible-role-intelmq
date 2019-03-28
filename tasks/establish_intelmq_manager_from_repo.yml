@@ -3,6 +3,7 @@
 - name: IntelMQ manager | set repo facts
   set_fact:
     __repo_install_path: /usr/share/intelmq-manager/ 
+  tags: install
 
 - name: IntelMQ manager | establish git
   package:
@@ -24,6 +25,7 @@
     remote_src: yes
     strip: 1
     basedir: "{{ __repo_install_path }}"
+  tags: install
 
 - name: IntelMQ manager | establish symlink within IntelMQ manager
   file:
@@ -40,5 +42,5 @@
     group: intelmq
     mode: "g+w"
     remote_src: yes
-  tags: configure
+  tags: install
 

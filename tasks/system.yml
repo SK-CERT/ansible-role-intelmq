@@ -12,6 +12,7 @@
   when:
     - ansible_distribution == 'Ubuntu'
     - ansible_distribution_major_version < "18"
+  tags: install
 
 - name: IntelMQ | establish 'intelmq' group
   group:
@@ -35,7 +36,7 @@
       package:
         name: intelmq
         state: present 
-      tags: install
+  tags: install
 
 - name: IntelMQ | establish repo
   import_tasks: establish_intelmq_from_repo.yml
@@ -53,11 +54,11 @@
     - { path: "{{ intelmq['bot_config_path'] }}" }
     - { path: "/var/log/intelmq", recurse: yes }
     - { path: "/var/lib/intelmq/bots/file-output/" }
-  tags: configure
+  tags: install
 
 - name: IntelMQ | ensure log-file presence
   file:
     path: "/var/log/intelmq/intelmqctl.log"
     state: touch
-  tags: configure
+  tags: install
 

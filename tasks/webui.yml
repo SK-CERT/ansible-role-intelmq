@@ -18,7 +18,7 @@
     group: intelmq
     mode: "g+rw"
     state: directory
-  tags: configure
+  tags: install
 
 - name: IntelMQ manager | establish repo
   import_tasks: establish_intelmq_manager_from_repo.yml
@@ -28,42 +28,21 @@
   user:
     name: "www-data"
     groups: "intelmq"
-  tags: configure
+  tags: install
 
 - name: IntelMQ manager | allow webserver to execute IntelMQ
   copy:
     src: intelmq-manager/sudoers_intelmq
     dest: /etc/sudoers.d/intelmq
-  tags: configure
+  tags: install
 
-- block:
-    - name: IntelMQ manager | establish dependencies
-      package:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - python-passlib
-        - python3-passlib
-      tags: configure
 
-    - name: IntelMQ manager | establish password file
-      htpasswd: 
-        path: "{{ intelmq_manager['authorization']['file']['path'] }}"
-        name: "{{ intelmq_manager['authorization']['user']['name'] }}"
-        owner: root
-        mode: "u=rw,go="
-        password: "{{ intelmq_manager['authorization']['user']['password'] }}"
-      tags: configure
-
-  when:
-    - intelmq_manager['authorization']
-    - intelmq_manager['authorization']['file']
 
 - name: IntelMQ manager | ensure log-file presence
   file:
     path: "/var/log/intelmq/intelmqctl.log"
     state: file
-  tags: configure
+  tags: install
 
 - name: IntelMQ manager | establish permissons
   file:
@@ -76,21 +55,40 @@
     - "/etc/intelmq"
     - "/var/log/intelmq"
     - "/var/lib/intelmq/bots/file-output/"
-  tags: configure
+  tags: install
+
+- block:
+    - name: IntelMQ manager | establish dependencies
+      package:
+        name:
+          - python-passlib
+          - python3-passlib
+        state: present
+      tags: install
+
+    - name: IntelMQ manager | establish password file
+      htpasswd: 
+        path: "{{ intelmq_manager['authorization']['file']['path'] }}"
+        name: "{{ intelmq_manager['authorization']['user']['name'] }}"
+        owner: root
+        mode: "u=rw,go="
+        password: "{{ intelmq_manager['authorization']['user']['password'] }}"
+      tags: configure
+  when:
+    - intelmq_manager['authorization']
+    - intelmq_manager['authorization']['file']
 
 - block:
     - name: IntelMQ manager | enable apache2 'headers' module
       apache2_module:
         name: headers
         state: present
-      tags: configure
       notify: restart apache2
 
     - name: IntelMQ manager | establish website in apache
       template:
         src: intelmq-manager/100-intelmq.conf 
         dest: "{{ apache_path }}/sites-available/100-intelmq.conf"
-      tags: configure
       notify: restart apache2
 
     - name: IntelMQ manager | enable website in apache
@@ -98,8 +96,8 @@
         src: "{{ apache_path }}/sites-available/100-intelmq.conf"
         path: "{{ apache_path }}/sites-enabled/100-intelmq.conf"
         state: link
-      tags: configure
       notify: restart apache2
   
   vars:
     apache_path: /etc/apache2/
+  tags: configure
