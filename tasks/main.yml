@@ -1,5 +1,4 @@
 ---
-# tasks file for intelmq
 
 - name: configure intelmq
   import_tasks: system.yml
@@ -10,4 +9,3 @@
 - name: configure intelmq-manager web interface
   import_tasks: webui.yml
   when: install_gui
-

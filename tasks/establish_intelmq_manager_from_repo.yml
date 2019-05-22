@@ -2,7 +2,7 @@
 
 - name: IntelMQ manager | set repo facts
   set_fact:
-    __repo_install_path: /usr/share/intelmq-manager/ 
+    __repo_install_path: /usr/share/intelmq-manager/
   tags: install
 
 - name: IntelMQ manager | establish git
@@ -14,15 +14,15 @@
 - name: IntelMQ manager | fetch repository
   git:
     repo: "{{ intelmq_manager['repo'] | default(intelmq_manager['official_repo']) }}"
-    dest: "{{ __repo_install_path }}" 
+    dest: "{{ __repo_install_path }}"
     version: "develop"
-    force: yes
+    force: true
   tags: install
 
 - name: IntelMQ manager | apply path patch
   patch:
     src: "{{ __repo_install_path }}/debian/patches/fix-paths.patch"
-    remote_src: yes
+    remote_src: true
     strip: 1
     basedir: "{{ __repo_install_path }}"
   tags: install
@@ -33,7 +33,7 @@
     path: "{{ intelmq_manager['web_installation_path'] }}"
     state: link
   tags: install
-  
+
 - name: IntelMQ manager | establish positions.conf configuration file
   copy:
     src: "{{ __repo_install_path }}/debian/positions.conf"
@@ -41,6 +41,5 @@
     owner: intelmq
     group: intelmq
     mode: "g+w"
-    remote_src: yes
+    remote_src: true
   tags: install
-

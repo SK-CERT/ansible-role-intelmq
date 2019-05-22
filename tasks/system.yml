@@ -24,18 +24,18 @@
   user:
     name: intelmq
     group: intelmq
-    system: yes
+    system: true
   tags: install
 
 - name: IntelMQ | establish official package
   when: intelmq['install']['source'] == 'package'
   block:
     - import_tasks: "package/Debian.yml"
-    
+
     - name: IntelMQ | establish IntelMQ
       package:
         name: intelmq
-        state: present 
+        state: present
   tags: install
 
 - name: IntelMQ | establish repo
@@ -50,10 +50,11 @@
     mode: "{{ item.mode | default('g+rw') }}"
     recurse: "{{ item.recurse | default('no') }}"
     state: directory
-  with_items: 
-    - { path: "{{ intelmq['bot_config_path'] }}" }
-    - { path: "/var/log/intelmq", recurse: yes }
-    - { path: "/var/lib/intelmq/bots/file-output/" }
+  with_items:
+    - path: "{{ intelmq['bot_config_path'] }}"
+    - path: "/var/log/intelmq"
+      recurse: true
+    - path: "/var/lib/intelmq/bots/file-output/"
   tags: install
 
 - name: IntelMQ | ensure log-file presence
@@ -61,4 +62,3 @@
     path: "/var/log/intelmq/intelmqctl.log"
     state: touch
   tags: install
-

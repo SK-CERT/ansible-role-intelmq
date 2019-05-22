@@ -20,17 +20,17 @@
 
 - name: establish python packaging dependencies
   package:
-    name: 
+    name:
       - python3-setuptools
-    state: latest     
+    state: latest
   tags: install
 
 - name: IntelMQ | load online repository
   git:
     repo: "{{ intelmq['install']['repo'] | default(intelmq['official_repo']) }}"
-    dest: "{{ __tmp_repo_path }}" 
+    dest: "{{ __tmp_repo_path }}"
     version: "develop"
-    force: yes
+    force: true
   tags: install
 
 - name: IntelMQ | copy over package creating script
@@ -40,7 +40,7 @@
   tags: install
 
 - name: IntelMQ | create custom package
-  shell: "bash {{ __tmp_package_path }}/create_deb_package.sh"  
+  shell: "bash {{ __tmp_package_path }}/create_deb_package.sh"
   args:
     chdir: "{{ __tmp_repo_path }}"
   tags: install
@@ -56,4 +56,3 @@
   args:
     chdir: "{{ __tmp_repo_path }}"
   tags: install
-

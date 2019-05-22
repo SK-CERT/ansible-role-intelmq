@@ -4,11 +4,11 @@
   when: intelmq_manager['install']['source'] == 'package'
   block:
     - import_tasks: "package/Debian.yml"
-    
-    - name: IntelMQ manager | establish package 
+
+    - name: IntelMQ manager | establish package
       package:
         name: intelmq-manager
-        state: present 
+        state: present
       tags: install
 
 - name: IntelMQ manager | establish configuration directory
@@ -36,8 +36,6 @@
     dest: /etc/sudoers.d/intelmq
   tags: install
 
-
-
 - name: IntelMQ manager | ensure log-file presence
   file:
     path: "/var/log/intelmq/intelmqctl.log"
@@ -50,8 +48,8 @@
     owner: "intelmq"
     group: "intelmq"
     mode: "g+rw"
-    recurse: yes
-  with_items: 
+    recurse: true
+  with_items:
     - "/etc/intelmq"
     - "/var/log/intelmq"
     - "/var/lib/intelmq/bots/file-output/"
@@ -67,7 +65,7 @@
       tags: install
 
     - name: IntelMQ manager | establish password file
-      htpasswd: 
+      htpasswd:
         path: "{{ intelmq_manager['authorization']['file']['path'] }}"
         name: "{{ intelmq_manager['authorization']['user']['name'] }}"
         owner: root
@@ -87,7 +85,7 @@
 
     - name: IntelMQ manager | establish website in apache
       template:
-        src: intelmq-manager/100-intelmq.conf 
+        src: intelmq-manager/100-intelmq.conf
         dest: "{{ apache_path }}/sites-available/100-intelmq.conf"
       notify: restart apache2
 
@@ -97,7 +95,7 @@
         path: "{{ apache_path }}/sites-enabled/100-intelmq.conf"
         state: link
       notify: restart apache2
-  
+
   vars:
     apache_path: /etc/apache2/
   tags: configure
