@@ -69,7 +69,8 @@
         path: "{{ intelmq_manager['authorization']['file']['path'] }}"
         name: "{{ intelmq_manager['authorization']['user']['name'] }}"
         owner: root
-        mode: "u=rw,go="
+        group: www-data
+        mode: "u=rw,g=r,o="
         password: "{{ intelmq_manager['authorization']['user']['password'] }}"
       tags: configure
   when:
