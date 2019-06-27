@@ -4,6 +4,7 @@ intelmq:
   official_repo: "https://github.com/certtools/intelmq.git"
   bot_config_path: /etc/intelmq/
   dependencies:
+    - bash-completion
     - python3-pip
     - python3-dnspython
     - python3-openssl
@@ -17,4 +18,4 @@ intelmq:
 
 intelmq_manager:
   official_repo: "https://github.com/certtools/intelmq-manager.git"
-  web_installation_path: /usr/share/intelmq-manager/html 
+  web_installation_path: /usr/share/intelmq-manager/html
