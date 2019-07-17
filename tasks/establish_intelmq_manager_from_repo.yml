@@ -35,7 +35,7 @@
   tags: install
 
 - name: IntelMQ manager | establish positions.conf configuration file
-  when: intelmq_manager['configuration_file'] is defined
+  when: intelmq_manager['configuration_file'] is not defined
   copy:
     src: "{{ intelmq_manager['configuration_file'] }}"
     dest: "{{ intelmq_manager['configuration']['file']['path'] }}/positions.conf"

@@ -74,5 +74,5 @@
     owner: intelmq
     group: intelmq
     mode: preserve
-    loop: "{{ intelmq['configuration_file'] }}"
+  loop: "{{ intelmq['configuration_file'] }}"
   tags: configure
