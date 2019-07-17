@@ -1,10 +1,9 @@
 ---
 
-install_gui: yes
-
 intelmq:
   install:
-    source: package 
+    source: package   # enum, repo|package
+  configuration_file: []    # paths to configuration files
 
 intelmq_manager:
   install:

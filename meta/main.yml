@@ -1,12 +1,18 @@
+---
+
 galaxy_info:
-  author: Tibor Csoka
-  description: Setup IntelMQ environment
+  role_name: IntelMQ
+  author: Tibor Csóka
+  description: |
+    Setup IntelMQ environment along with a GUI interface (IntelMQ manager)
   company: None
 
   license: GPLv3
   min_ansible_version: 2.6
 
-  galaxy_tags: ['intelmq', 'intelmq-manager']
+  galaxy_tags:
+    - intelmq
+    - intelmq-manager
 
 dependencies:
   - role: common/www

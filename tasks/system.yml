@@ -30,7 +30,8 @@
 - name: IntelMQ | establish official package
   when: intelmq['install']['source'] == 'package'
   block:
-    - import_tasks: "package/Debian.yml"
+    - include_tasks: "package/Debian.yml"
+      when: ansible_os_family == "Debian"
 
     - name: IntelMQ | establish IntelMQ
       package:
@@ -62,3 +63,16 @@
     path: "/var/log/intelmq/intelmqctl.log"
     state: touch
   tags: install
+
+- name: load configuration files
+  when:
+    - intelmq['configuration_file'] is defined
+    - intelmq['configuration_file'] | length > 0
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/intelmq/{{ item | basename }}"
+    owner: intelmq
+    group: intelmq
+    mode: preserve
+    loop: "{{ intelmq['configuration_file'] }}"
+  tags: configure

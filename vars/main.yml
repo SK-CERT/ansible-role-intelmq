@@ -19,3 +19,5 @@ intelmq:
 intelmq_manager:
   official_repo: "https://github.com/certtools/intelmq-manager.git"
   web_installation_path: /usr/share/intelmq-manager/html
+
+geoip_dir: "/var/lib/intelmq/bots/maxmind_geoip/"

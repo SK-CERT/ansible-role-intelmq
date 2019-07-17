@@ -1,0 +1,59 @@
+---
+
+- name: establish dependencies
+  package:
+    name: libssl-dev
+    state: present
+  tags: install
+
+- name: establish proper pip version
+  pip:
+    name: pip
+    version: 9.0.1
+    state: present
+    executable: pip3
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version < "18.04"
+  tags: install
+
+- name: establish python dependencies
+  pip:
+    name:
+      - setuptools>40.4.3
+      - cryptography==2.2.1
+      - git+https://github.com/Blueliv/api-python-sdk
+      - OTXv2
+      - pyasn
+      - geoip2
+      - pymisp
+      - pyopenssl
+      - querycontacts
+      - imbox
+    state: present
+    executable: pip3
+    extra_args: "-t /usr/lib/python3/dist-packages/"
+  tags: install
+
+- name: geoip | establish tools
+  package:
+    name: gzip
+    state: present
+
+- name: geoip | ensure intelmq directory presence
+  file:
+    path: "{{ geoip_dir }}"
+    owner: intelmq
+    group: intelmq
+    state: directory
+
+- name: geoip | download database
+  get_url:
+    url: https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
+    dest: "{{ geoip_dir }}/"
+
+- name: geoip | extract database
+  command: "gunzip GeoLite2-City.mmdb.gz"
+  args:
+    chdir: "{{ geoip_dir }}"
+    creates: "{{ geoip_dir }}/GeoLite2-City.mmdb"

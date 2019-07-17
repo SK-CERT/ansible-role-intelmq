@@ -1,7 +1,0 @@
----
-
-- name: IntelMQ | install logging dependencies
-  package:
-    name: logrotate
-    state: present
-  tags: install

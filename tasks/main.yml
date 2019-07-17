@@ -3,9 +3,8 @@
 - name: configure intelmq
   import_tasks: system.yml
 
-- name: configure intelmq logging
-  import_tasks: logging.yml
+- name: establish bot dependencies
+  import_tasks: bot_dependencies.yml
 
 - name: configure intelmq-manager web interface
   import_tasks: webui.yml
-  when: install_gui

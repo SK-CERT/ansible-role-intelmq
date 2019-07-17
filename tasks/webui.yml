@@ -4,6 +4,7 @@
   when: intelmq_manager['install']['source'] == 'package'
   block:
     - import_tasks: "package/Debian.yml"
+      when: ansible_os_family == "Debian"
 
     - name: IntelMQ manager | establish package
       package:
@@ -100,3 +101,14 @@
   vars:
     apache_path: /etc/apache2/
   tags: configure
+
+- name: IntelMQ manager | establish positions.conf configuration file
+  when: intelmq_manager['configuration_file'] is not defined
+  copy:
+    src: "{{ __repo_install_path }}/debian/positions.conf"
+    dest: "{{ intelmq_manager['configuration']['file']['path'] }}/positions.conf"
+    owner: intelmq
+    group: intelmq
+    mode: "g+w"
+    remote_src: true
+  tags: install
