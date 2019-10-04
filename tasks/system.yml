@@ -65,14 +65,12 @@
   tags: install
 
 - name: load configuration files
-  when:
-    - intelmq['configuration_file'] is defined
-    - intelmq['configuration_file'] | length > 0
+  when: intelmq['configuration_file'] is defined
   copy:
     dest: "/etc/intelmq/{{ item.key }}"
-    content: "{{ item.value }}"
+    content: "{{ item.value | to_nice_json }}"
     owner: intelmq
     group: intelmq
-    mode: preserve
+    mode: "u,g=rw,o=r"
   loop: "{{ intelmq['configuration_file'] | dict2items }}"
   tags: configure

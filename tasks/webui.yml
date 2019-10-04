@@ -105,7 +105,7 @@
 - name: IntelMQ manager | establish positions.conf configuration file
   when: intelmq_manager['configuration_file'] is defined
   copy:
-    src: "{{ intelmq_manager['configuration_file'] }}"
+    content: "{{ intelmq_manager['configuration_file'] }}"
     dest: "{{ intelmq_manager['configuration']['file']['path'] }}/positions.conf"
     owner: intelmq
     group: intelmq
