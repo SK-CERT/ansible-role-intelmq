@@ -69,10 +69,10 @@
     - intelmq['configuration_file'] is defined
     - intelmq['configuration_file'] | length > 0
   copy:
-    src: "{{ item }}"
-    dest: "/etc/intelmq/{{ item | basename }}"
+    dest: "/etc/intelmq/{{ item.key }}"
+    content: "{{ item.value }}"
     owner: intelmq
     group: intelmq
     mode: preserve
-  loop: "{{ intelmq['configuration_file'] }}"
+  loop: "{{ intelmq['configuration_file'] | dict2items }}"
   tags: configure
