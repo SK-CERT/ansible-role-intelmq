@@ -3,7 +3,7 @@ galaxy_info:
   description: Setup IntelMQ environment
   company: None
 
-  license: MIT
+  license: GPLv3
   min_ansible_version: 2.6
 
   galaxy_tags: ['intelmq', 'intelmq-manager']
