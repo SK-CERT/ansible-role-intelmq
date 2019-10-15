@@ -9,6 +9,8 @@ Requirements
 ------------
 
 None
+=======
+Apache web server with PHP 7.2+ must be running on the host.
 
 Role Variables
 --------------

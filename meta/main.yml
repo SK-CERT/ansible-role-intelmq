@@ -14,9 +14,4 @@ galaxy_info:
     - intelmq
     - intelmq-manager
 
-dependencies:
-  - role: common/www
-    vars:
-      php_versions:
-        - 7.3
-      default_php_version: 7.3
+dependencies: []
